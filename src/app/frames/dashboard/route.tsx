@@ -78,7 +78,7 @@ const handler = frames(async (ctx) => {
                                   action="post"
                                   key={1}
                                   target={{
-                                      pathname: "/api/signer",
+                                      pathname: "/signer",
                                   }}
                               >
                                   Sign to start

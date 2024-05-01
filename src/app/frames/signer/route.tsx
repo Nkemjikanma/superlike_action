@@ -71,37 +71,21 @@ export const POST = frames(async (ctx) => {
                         </div>
                     </div>
                 ),
-                buttons: (
+                buttons: [
                     <Button
                         action="link"
                         key={1}
                         target={signedKey.signer_approval_url!}
                     >
                         Approve
-                    </Button>
-                ),
+                    </Button>,
+                ],
             };
         }
-
-        return {
-            image: (
-                <div tw="flex flex-col relative w-full h-full items-center justify-center">
-                    <div tw="flex relative">Something went wrong</div>
-
-                    <div tw="bottom-0 right-0 absolute bg-gray-800 border-t-4 border-r-4 border-gray-800 rounded-tl-2xl p-4 text-white text-2xl">
-                        By @nkemjika
-                    </div>
-                </div>
-            ),
-            buttons: (
-                <Button action="link" key={1} target={{ pathname: "/frames" }}>
-                    Try again
-                </Button>
-            ),
-        };
     } catch (error) {
-        throw new Error("Error creating signed key");
+        return NextResponse.json({ error: "Error siging" }, { status: 500 });
     }
+    return NextResponse.json({ error: "Error signing" });
 });
 
 export const GET = frames(async (ctx) => {
