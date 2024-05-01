@@ -19,20 +19,29 @@ export const POST = frames(async (ctx) => {
             },
         ).then((res) => res.json());
 
+        console.log("createSigner", createSigner);
+
         // generate a signature
         const { deadline, signature } = await generate_signature(
             createSigner.public_key,
         );
 
-        const fid = await getFid();
-
         // register the signed key
-        const signedKey = await neynarClient.registerSignedKey(
-            createSigner.signer_uuid,
-            fid,
-            deadline,
-            signature,
-        );
+        const signedKey: CreateSignerType = await fetch(
+            "https://api.neynar.com/v2/farcaster/signer/signed_key",
+            {
+                method: "POST",
+                headers: {
+                    api_key: process.env.NEYNAR_API_KEY!,
+                },
+                body: JSON.stringify({
+                    signer_uuid: createSigner.signer_uuid,
+                    app_fid: process.env.FID!,
+                    deadline,
+                    signature,
+                }),
+            },
+        ).then((res) => res.json());
 
         console.log("signedKey", signedKey);
 
