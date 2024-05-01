@@ -1,39 +1,6 @@
 import { mnemonicToAccount } from "viem/accounts";
 import { neynarClient } from "./constants";
 
-export const getSignedKey = async () => {
-    try {
-        const createSigner: GeneratedKey = await fetch(
-            "https://api.neynar.com/v2/farcaster/signer",
-            {
-                method: "POST",
-                headers: {
-                    api_key: process.env.NEYNAR_API_KEY!,
-                },
-            },
-        ).then((res) => res.json());
-
-        const { deadline, signature } = await generate_signature(
-            createSigner.public_key,
-        );
-
-        const fid = await getFid();
-
-        const signedKey = await neynarClient.registerSignedKey(
-            createSigner.signer_uuid,
-            fid,
-            deadline,
-            signature,
-        );
-
-        console.log("signedKey", signedKey);
-
-        return signedKey;
-    } catch (error) {
-        throw new Error("Error creating signed key");
-    }
-};
-
 export const generate_signature = async function (public_key: string) {
     // DO NOT CHANGE ANY VALUES IN THIS CONSTANT
     const SIGNED_KEY_REQUEST_VALIDATOR_EIP_712_DOMAIN = {
