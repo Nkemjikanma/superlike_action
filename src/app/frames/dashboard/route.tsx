@@ -75,7 +75,7 @@ const handler = frames(async (ctx) => {
                     user.signer?.status === null
                         ? [
                               <Button
-                                  action="link"
+                                  action="post"
                                   key={1}
                                   target={{
                                       pathname: "/api/signer",
