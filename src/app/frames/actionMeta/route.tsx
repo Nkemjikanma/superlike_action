@@ -29,7 +29,7 @@ const query = (fid: string) => `query MyQuery {
   }
 }`;
 
-export async function GET() {
+export const GET = frames(async () => {
     const data = {
         name: "SuperLike",
         icon: "light-bulb",
@@ -41,7 +41,7 @@ export async function GET() {
     };
 
     return Response.json(data);
-}
+});
 
 export const POST = frames(async (ctx) => {
     let user;

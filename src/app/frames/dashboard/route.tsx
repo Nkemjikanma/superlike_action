@@ -4,13 +4,13 @@ import { prismadb } from "@/utils/prismadb";
 import { startTime, endTime, airStackKey } from "@/utils/constants";
 import { frames } from "../frames";
 import { init } from "@airstack/node";
-import { getDistributeTips, getTipAllowance } from "@/utils/helpers";
+import { getTipAllowance } from "@/utils/helpers";
 
-init(airStackKey);
+// init(airStackKey);
 
-// export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 
-const handleRequest = frames(async (ctx) => {
+const handler = frames(async (ctx) => {
     const userId = ctx.message?.requesterFid;
 
     const percentage = ctx.message?.inputText;
@@ -50,7 +50,8 @@ const handleRequest = frames(async (ctx) => {
          * 3. pass the casts, tip amount, to the next frame/bot
          */
 
-        const tipAllowance = await getTipAllowance(user.fid);
+        // const tipAllowance = await getTipAllowance(user.fid);
+        const tipAllowance = "0";
 
         if (tipAllowance === "0") {
             return {
@@ -116,12 +117,12 @@ const handleRequest = frames(async (ctx) => {
 
         // gets the tip to be given to each super like
         // const distributeTips =
-        user &&
-            getDistributeTips(
-                user?.likes.length,
-                Number(tipAllowance),
-                percentage,
-            );
+        // user &&
+        //     getDistributeTips(
+        //         user?.likes.length,
+        //         Number(tipAllowance),
+        //         percentage,
+        //     );
 
         // check data of signing, if not today, change status to pending-approval
 
@@ -213,5 +214,5 @@ const handleRequest = frames(async (ctx) => {
     };
 });
 
-export const GET = handleRequest;
-export const POST = handleRequest;
+export const GET = handler;
+export const POST = handler;
