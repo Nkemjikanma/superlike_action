@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { frames } from "@/app/frames/frames";
 import { neynarClient } from "@/utils/constants";
 import { generate_signature, getFid } from "@/utils/sign";
+import { Button } from "frames.js/next";
 
 export const POST = frames(async (ctx) => {
     try {
@@ -25,6 +26,9 @@ export const POST = frames(async (ctx) => {
         const { deadline, signature } = await generate_signature(
             createSigner.public_key,
         );
+
+        console.log("deadline", deadline);
+        console.log("signature", signature);
 
         // register the signed key
         const signedKey: CreateSignerType = await fetch(
@@ -56,7 +60,45 @@ export const POST = frames(async (ctx) => {
             },
         });
 
-        return NextResponse.json(signedKey, { status: 200 });
+        if (signedKey.status === "pending_approval") {
+            return {
+                image: (
+                    <div tw="flex flex-col relative w-full h-full items-center justify-center">
+                        <div tw="flex relative">Approve</div>
+
+                        <div tw="bottom-0 right-0 absolute bg-gray-800 border-t-4 border-r-4 border-gray-800 rounded-tl-2xl p-4 text-white text-2xl">
+                            By @nkemjika
+                        </div>
+                    </div>
+                ),
+                buttons: (
+                    <Button
+                        action="link"
+                        key={1}
+                        target={signedKey.signer_approval_url!}
+                    >
+                        Approve
+                    </Button>
+                ),
+            };
+        }
+
+        return {
+            image: (
+                <div tw="flex flex-col relative w-full h-full items-center justify-center">
+                    <div tw="flex relative">Something went wrong</div>
+
+                    <div tw="bottom-0 right-0 absolute bg-gray-800 border-t-4 border-r-4 border-gray-800 rounded-tl-2xl p-4 text-white text-2xl">
+                        By @nkemjika
+                    </div>
+                </div>
+            ),
+            buttons: (
+                <Button action="link" key={1} target={{ pathname: "/frames" }}>
+                    Try again
+                </Button>
+            ),
+        };
     } catch (error) {
         throw new Error("Error creating signed key");
     }
