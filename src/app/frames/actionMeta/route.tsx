@@ -1,33 +1,9 @@
 import { prismadb } from "@/utils/prismadb";
 import { frames } from "../frames";
-import { init, fetchQuery } from "@airstack/node";
-
-init(process.env.AIRSTACK_KEY!);
+import { getQuery } from "@/utils/airstack";
 
 // forces refresh of next cache
 export const dynamic = "force-dynamic";
-
-type QueryResponse = {
-    data: Data;
-    error: Error;
-};
-
-interface Data {
-    Socials: {
-        Social: {
-            profileName: string;
-        }[];
-    };
-}
-
-const query = (fid: string) => `query MyQuery {
-    Socials(input: {filter: {dappName: { _eq: farcaster }, identity: { _eq: "fc_fid:${fid}" } }
-        blockchain: ethereum}) {
-    Social {
-      profileName
-    }
-  }
-}`;
 
 export const GET = frames(async () => {
     const data = {
@@ -68,18 +44,12 @@ export const POST = frames(async (ctx) => {
         },
     });
 
-    // const variable: Variables = {
-    //     fc_fid: castId?.fid,
-    // };
-
-    const { data, error }: QueryResponse = await fetchQuery(
-        query(castId.fid.toString()),
-    );
+    const { data, error } = await getQuery(castId);
 
     // check if user exists
     if (user) {
         // if user exists, check if user has liked the cast
-        const like = await prismadb.likes.findFirst({
+        const like = await prismadb.likes.findUnique({
             where: { castId: castId.hash },
         });
 
@@ -96,6 +66,7 @@ export const POST = frames(async (ctx) => {
                 fid: user.fid,
                 castId: castId.hash,
                 authorFid: castId.fid,
+                alreadyTipped: false,
             },
         });
     }
@@ -110,6 +81,7 @@ export const POST = frames(async (ctx) => {
                         {
                             castId: castId.hash,
                             authorFid: castId.fid,
+                            alreadyTipped: false,
                         },
                     ],
                 },

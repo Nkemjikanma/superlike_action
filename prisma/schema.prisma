@@ -20,18 +20,16 @@ model User {
 }
 
 model Likes {
-  castId    String   @id
-  authorFid Int
-  likedAt   DateTime @default(now())
-  fid       Int
-  user      User     @relation(fields: [fid], references: [fid])
+  castId        String   @id
+  authorFid     Int
+  likedAt       DateTime @default(now())
+  fid           Int
+  user          User     @relation(fields: [fid], references: [fid])
+  alreadyTipped Boolean  @default(false)
 }
 
 model signer {
-  signer_uuid         String  @unique
-  public_key          String  @unique
-  status              String
-  signer_approval_url String?
-  fid                 Int     @unique
-  user                User    @relation(fields: [fid], references: [fid])
+  signer_uuid String @unique
+  fid         Int    @unique
+  user        User   @relation(fields: [fid], references: [fid])
 }

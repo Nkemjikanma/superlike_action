@@ -1,6 +1,7 @@
 export const getTipAllowance = async (fid: number) => {
+    // curl -H "X-Dune-API-Key:<api_key>" "https://api.dune.com/api/v1/query/3744089/results?limit=1000"
     const response = await fetch(
-        `https://api.dune.com/api/v1/query/3661369/results?limit=1&columns=tip_allowance&filters=fid=${fid}`,
+        `https://api.dune.com/api/v1/query/3744089/results?limit=1&columns=tip_allowance&filters=fid=${fid}`,
         {
             headers: { "X-Dune-API-Key": process.env.DUNE_API_KEY! },
         },
