@@ -5,6 +5,8 @@ import { getDistributeTips } from "@/utils/helpers";
 import { getDegenQuery } from "@/utils/airstack";
 import { Button } from "frames.js/next";
 
+export const dynamic = "force-dynamic";
+
 export const POST = frames(async (ctx) => {
     const requesterFid = ctx.message?.requesterFid;
     const percentageToTip = ctx.message?.inputText;

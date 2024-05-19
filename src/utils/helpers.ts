@@ -1,5 +1,4 @@
 export const getTipAllowance = async (fid: number) => {
-    // curl -H "X-Dune-API-Key:<api_key>" "https://api.dune.com/api/v1/query/3744089/results?limit=1000"
     const response = await fetch(
         `https://api.dune.com/api/v1/query/3744089/results?limit=1&columns=tip_allowance&filters=fid=${fid}`,
         {
@@ -33,6 +32,7 @@ export const getDistributeTips = (
         return allowance / numberOfLikes;
     }
 
-    // check if percentage is provided
-    return (Number(percentage) / 100) * numberOfLikes;
+    // if percentage is provided
+    const percentageValue = (Number(percentage) / 100) * allowance;
+    return percentageValue / numberOfLikes;
 };

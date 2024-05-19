@@ -113,36 +113,61 @@ const handler = frames(async (ctx) => {
             };
         }
 
+        const displayedObject = [
+            { subject: "Number of super likes", value: user?.likes.length },
+            { subject: "Tip allowance", value: tipAllowance },
+            { subject: "Already tipped", value: totalUsed },
+        ];
+
         return {
             image: (
-                <div tw="flex flex-col relative w-2/3 h-full items-center justify-center border border-red-200 m-auto">
-                    <div tw="flex relative">
-                        Number of super likes: {user?.likes.length}
+                <div tw="flex flex-col relative w-full h-full items-center justify-center m-auto">
+                    <div tw="flex flex-col relative w-3/4 h-4/5 items-center justify-center">
+                        {displayedObject.map(({ subject, value }, index) => (
+                            <div
+                                key={index}
+                                tw="flex flex-row relative w-full border border-gray-800 justify-between px-2"
+                            >
+                                <p>{subject}:</p>
+                                <p tw="ml-2">{value}</p>
+                            </div>
+                        ))}
+
+                        <span tw="text-md mt-4">
+                            Leave textfield empty to tip 100%
+                        </span>
                     </div>
-                    <div tw="flex relative">Tip allowance: {tipAllowance}</div>
-                    <div tw="flex relative">Already tipped: {totalUsed}</div>
-                    <span tw="text-md mt-4">
-                        Leave textfield empty to tip 100%
-                    </span>
+
+                    <div tw="bottom-0 right-0 absolute bg-gray-800 border-t-4 border-r-4 border-gray-800 rounded-tl-2xl p-4 text-white text-2xl">
+                        By @nkemjika
+                    </div>
                 </div>
             ),
             textInput: "Enter percentage",
-            buttons: user.signer?.signer_uuid
-                ? [
-                      <Button
-                          action="post"
-                          key={1}
-                          target={{
-                              pathname: "/cast",
-                              query: {
-                                  tipAllowance: tipAllowance,
-                              },
-                          }}
-                      >
-                          Tip away
-                      </Button>,
-                  ]
-                : [],
+            buttons: [
+                user.signer?.signer_uuid ? (
+                    <Button
+                        action="post"
+                        key={1}
+                        target={{
+                            pathname: "/cast",
+                            query: {
+                                tipAllowance: tipAllowance,
+                            },
+                        }}
+                    >
+                        Tip away
+                    </Button>
+                ) : (
+                    <Button
+                        action="link"
+                        key={2}
+                        target="http://signer-seven.vercel.app"
+                    >
+                        Reply(needs signing)
+                    </Button>
+                ),
+            ],
         };
     }
 
