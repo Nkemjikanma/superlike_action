@@ -3,7 +3,7 @@ import { Button } from "frames.js/next";
 import { frames } from "./frames";
 
 const handleRequest = frames(async () => {
-    const actionUrl = `https://warpcast.com/~/add-cast-action?${new URLSearchParams({ url: new URL("/frames/actionMeta", "https://superlike-action.vercel.app").toString() })}`;
+    const actionUrl = `https://warpcast.com/~/add-cast-action?${new URLSearchParams({ url: new URL("/frames/actionMeta", "http://localhost:3000").toString() })}`;
 
     return {
         image: (
@@ -33,3 +33,5 @@ const handleRequest = frames(async () => {
 
 export const GET = handleRequest;
 export const POST = handleRequest;
+
+// https://superlike-action.vercel.app

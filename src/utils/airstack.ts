@@ -43,7 +43,7 @@ const query = (fid: string) => `query MyQuery {
      }
    }`;
 
-const degenQuery = (fid: string, date: Date) => `query MyQuery {
+const degenQuery = (fid: string) => `query MyQuery {
        FarcasterReplies(
         input: {
           filter: {
@@ -70,32 +70,9 @@ export const getQuery = async (castId: { fid: number }) => {
 };
 
 export const getDegenQuery = async (fid: string) => {
-    let totalUsed = 0;
-
     const { data, error }: DegenQueryResponse = await fetchQuery(
-        degenQuery(fid, new Date(currentDateGreaterThan)),
+        degenQuery(fid),
     );
 
-    const castData = data.FarcasterReplies.Reply;
-
-    const filteredCasts = castData
-        .filter(
-            (cast) =>
-                new Date(cast.castedAtTimestamp).toISOString() >=
-                new Date(currentDateGreaterThan).toISOString(),
-        )
-        .filter((cast) => cast.text.toLowerCase().includes("$degen"));
-
-    console.log("filteredCasts -->", filteredCasts);
-
-    filteredCasts.forEach((cast) => {
-        const degenMatch = cast.text.match(/\b\d+\b\s\$degen/gi);
-        const degenValue = degenMatch ? degenMatch[0] : "0 $degen";
-
-        totalUsed += parseInt(degenValue);
-    });
-
-    console.log("totalUsed -->", totalUsed);
-
-    return { totalUsed, error };
+    return { data, error };
 };

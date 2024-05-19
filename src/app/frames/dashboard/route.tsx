@@ -1,13 +1,9 @@
 import { Button } from "frames.js/next";
 
 import { prismadb } from "@/utils/prismadb";
-import { startTime, endTime, airStackKey } from "@/utils/constants";
+import { startTime, endTime } from "@/utils/constants";
 import { frames } from "../frames";
-import { init } from "@airstack/node";
-import { getTipAllowance } from "@/utils/helpers";
-import { getDegenQuery } from "@/utils/airstack";
-
-init(airStackKey);
+import { calculateTipGiven, getTipAllowance } from "@/utils/helpers";
 
 export const dynamic = "force-dynamic";
 
@@ -53,7 +49,11 @@ const handler = frames(async (ctx) => {
         const tipAllowance = await getTipAllowance(user.fid);
 
         // get remaining allowance
-        const { totalUsed, error } = await getDegenQuery(user.fid.toString());
+        // const { totalUsed, error } = await getDegenQuery(user.fid.toString());
+
+        const { totalUsed, error } = await calculateTipGiven(
+            user.fid.toString(),
+        );
 
         if (error) {
             return {
