@@ -70,15 +70,17 @@ export const POST = frames(async (ctx) => {
     // check if user exists
     console.log("user", user?.likes);
     if (user) {
-        const like = user.likes.some((like) => like.castId === castId.hash);
+        if (user?.likes.length > 0) {
+            const like = user.likes.some((like) => like.castId === castId.hash);
 
-        console.log("like", like);
+            console.log("like", like);
 
-        // if user has liked the cast, return a message
-        if (like) {
-            return Response.json({
-                message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has already been PowerLiked`,
-            });
+            // if user has liked the cast, return a message
+            if (like) {
+                return Response.json({
+                    message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has already been PowerLiked`,
+                });
+            }
         }
 
         // if user has not liked the cast, like the cast
