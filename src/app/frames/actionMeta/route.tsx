@@ -67,37 +67,6 @@ export const POST = frames(async (ctx) => {
 
     const { data, error } = await getQuery(castId);
 
-    // check if user exists
-    console.log("user", user?.likes);
-    if (user) {
-        if (user?.likes.length > 0) {
-            const like = user.likes.some((like) => like.castId === castId.hash);
-
-            console.log("like", like);
-
-            // if user has liked the cast, return a message
-            if (like) {
-                return Response.json({
-                    message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has already been PowerLiked`,
-                });
-            }
-        }
-
-        // if user has not liked the cast, like the cast
-        await prismadb.likes.create({
-            data: {
-                fid: user.fid,
-                castId: castId.hash,
-                authorFid: castId.fid,
-                alreadyTipped: false,
-            },
-        });
-
-        return Response.json({
-            message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has been PowerLiked`,
-        });
-    }
-
     // if user does not exist, create user and like the cast
     if (!user) {
         await prismadb.user.create({
@@ -120,7 +89,31 @@ export const POST = frames(async (ctx) => {
         });
     }
 
+    // check if user exists
+    console.log("user", user?.likes);
+
+    // check if user has liked the cast
+    if (user?.likes.length === 0) {
+        // if user has not liked the cast, like the cast
+        await prismadb.likes.create({
+            data: {
+                fid: user.fid,
+                castId: castId.hash,
+                authorFid: castId.fid,
+                alreadyTipped: false,
+            },
+        });
+
+        return Response.json({
+            message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has been PowerLiked`,
+        });
+    }
+
     return Response.json({
-        message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has been PowerLiked`,
+        message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has already been PowerLiked`,
     });
+
+    // return Response.json({
+    //     message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has been PowerLiked`,
+    // });
 });
