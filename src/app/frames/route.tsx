@@ -9,7 +9,7 @@ const handleRequest = frames(async () => {
         image: (
             <div tw="flex flex-col relative w-full h-full items-center justify-center m-auto">
                 <p tw="text-xl">PowerLike Action ⚡️</p>
-                <p tw="text-md mt-7 w-2/3">
+                <p tw="text-md mt-7 w-2/3 border border-red-500 m-auto fit-content">
                     Add the Powerlike action to keep track of casts you want to
                     automatically tip with the powerlike frame.
                 </p>
