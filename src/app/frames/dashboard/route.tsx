@@ -128,7 +128,7 @@ const handler = frames(async (ctx) => {
             image: (
                 <div tw="flex flex-col relative w-full h-full items-center justify-center m-auto py-3">
                     <div tw="flex flex-col relative w-3/4 h-2/4 items-center justify-center border border-red-500">
-                        <div tw="flex flex-col relative h-fit m-auto items-center justify-center border border-green-500">
+                        <div tw="flex flex-col relative h-fit m-auto items-center justify-center">
                             <ul tw="flex flex-col relative w-full h-fit">
                                 {displayedObject.map(
                                     ({ subject, value }, index) => (
@@ -143,11 +143,10 @@ const handler = frames(async (ctx) => {
                                 )}
                             </ul>
                         </div>
-                        <span tw="text-md mt-4">
-                            Leave textfield empty to tip 100%
-                        </span>
                     </div>
-
+                    <span tw="text-md mt-4">
+                        Leave textfield empty to tip 100%
+                    </span>
                     <div tw="bottom-0 right-0 absolute bg-gray-800 border-t-4 border-r-4 border-gray-800 rounded-tl-2xl p-4 text-white text-2xl">
                         By @nkemjika
                     </div>
