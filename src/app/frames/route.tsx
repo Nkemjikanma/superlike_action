@@ -7,12 +7,14 @@ const handleRequest = frames(async () => {
 
     return {
         image: (
-            <div tw="flex flex-col relative w-full h-2/3 items-center justify-center m-auto">
-                <p tw="text-lg font-bold">PowerLike Action ⚡️</p>
-                <p tw="text-sm mt-7 w-2/3 m-auto fit-content">
-                    Add the Powerlike action to keep track of casts you want to
-                    automatically tip with the powerlike frame.
-                </p>
+            <div tw="flex flex-col relative w-full h-full items-center justify-center m-auto">
+                <div tw="flex flex-col relative w-full h-2/3">
+                    <p tw="text-[25px] font-bold">PowerLike Action ⚡️</p>
+                    <p tw="text-[19px] mt-4 w-2/3 m-auto fit-content">
+                        Add the Powerlike action to keep track of casts you want
+                        to automatically tip with the powerlike frame.
+                    </p>
+                </div>
                 <div tw="bottom-0 right-0 absolute bg-gray-800 border-t-4 border-r-4 border-gray-800 rounded-tl-2xl p-4 text-white text-2xl">
                     By @nkemjika
                 </div>
