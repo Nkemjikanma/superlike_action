@@ -7,9 +7,9 @@ export const dynamic = "force-dynamic";
 
 export const GET = frames(async () => {
     const data = {
-        name: "SuperLike",
-        icon: "light-bulb",
-        description: "Why like when you can SuperLike.",
+        name: "PowerLike",
+        icon: "plus",
+        description: "Why like when you can PowerLike.",
         aboutUrl: "https://warpcast.com/nkemjika",
         action: {
             type: "post",
@@ -34,7 +34,7 @@ export const POST = frames(async (ctx) => {
     if (!castId) {
         return Response.json({
             message:
-                "Will not SuperLike a cast without a castId - i'll try again",
+                "Will not PowerLike a cast without a castId - i'll try again",
         });
     }
 
@@ -56,7 +56,7 @@ export const POST = frames(async (ctx) => {
         // if user has liked the cast, return a message
         if (like) {
             return Response.json({
-                message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has already been SuperLiked`,
+                message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has already been PowerLiked`,
             });
         }
 
@@ -90,6 +90,6 @@ export const POST = frames(async (ctx) => {
     }
 
     return Response.json({
-        message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has been SuperLiked`,
+        message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has been PowerLiked`,
     });
 });

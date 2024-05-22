@@ -8,7 +8,7 @@ const handleRequest = frames(async () => {
     return {
         image: (
             <div tw="flex relative w-full h-full items-center justify-center">
-                SuperLike Action
+                PowerLike Action ⚡️
                 <div tw="bottom-0 right-0 absolute bg-gray-800 border-t-4 border-r-4 border-gray-800 rounded-tl-2xl p-4 text-white text-2xl">
                     By @nkemjika
                 </div>
