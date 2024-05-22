@@ -2,6 +2,20 @@ import { prismadb } from "@/utils/prismadb";
 import { frames } from "../frames";
 import { getQuery } from "@/utils/airstack";
 
+type UserType =
+    | ({
+          fid: number;
+      } & {
+          likes: {
+              castId: string;
+              authorFid: number;
+              fid: number;
+              alreadyTipped: boolean;
+              likedAt: Date;
+          }[];
+      })
+    | null;
+
 // forces refresh of next cache
 export const dynamic = "force-dynamic";
 
@@ -20,7 +34,7 @@ export const GET = frames(async () => {
 });
 
 export const POST = frames(async (ctx) => {
-    let user;
+    let user: UserType;
     const { message } = ctx;
 
     if (!message) {
@@ -42,16 +56,20 @@ export const POST = frames(async (ctx) => {
         where: {
             fid: requesterFid,
         },
+        include: {
+            likes: {
+                where: {
+                    castId: castId.hash,
+                },
+            },
+        },
     });
 
     const { data, error } = await getQuery(castId);
 
     // check if user exists
     if (user) {
-        // if user exists, check if user has liked the cast
-        const like = await prismadb.likes.findUnique({
-            where: { castId: castId.hash },
-        });
+        const like = user.likes.find((like) => like.castId === castId.hash);
 
         // if user has liked the cast, return a message
         if (like) {
