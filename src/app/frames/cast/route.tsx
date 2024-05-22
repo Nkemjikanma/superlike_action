@@ -2,8 +2,8 @@ import { HttpError, currentDateGreaterThan } from "@/utils/constants";
 import { prismadb } from "@/utils/prismadb";
 import { frames } from "../frames";
 import { getDistributeTips } from "@/utils/helpers";
-import { calculateTipGiven } from "@/utils/helpers";
 import { Button } from "frames.js/next";
+import { getDegenQuery } from "@/utils/airstack";
 
 export const dynamic = "force-dynamic";
 
@@ -87,9 +87,7 @@ export const POST = frames(async (ctx) => {
     }
 
     // get remaining allowance
-    const { totalUsed, error } = await calculateTipGiven(
-        requesterFid!.toString(),
-    );
+    const { totalUsed, error } = await getDegenQuery(requesterFid!.toString());
 
     if (error) {
         return {
