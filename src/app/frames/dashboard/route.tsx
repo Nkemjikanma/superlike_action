@@ -129,12 +129,12 @@ const handler = frames(async (ctx) => {
                 <div tw="flex flex-col relative w-full h-full items-center justify-center m-auto py-3">
                     <div tw="flex flex-col relative w-3/4 h-2/4 items-center justify-center">
                         <div tw="flex relative w-full h-full">
-                            <ul tw="flex flex-row relative w-full h-full border border-gray-800 justify-between px-2">
+                            <ul tw="flex flex-row relative w-full h-full ">
                                 {displayedObject.map(
                                     ({ subject, value }, index) => (
                                         <li
                                             key={index}
-                                            tw="flex flex-row relative"
+                                            tw="flex flex-row relative border border-gray-800 justify-between px-2"
                                         >
                                             <p>{subject}:</p>
                                             <p tw="ml-2">{value}</p>
