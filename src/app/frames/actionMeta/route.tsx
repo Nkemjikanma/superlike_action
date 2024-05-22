@@ -87,8 +87,6 @@ export const POST = frames(async (ctx) => {
                 alreadyTipped: false,
             },
         });
-
-        return;
     }
 
     // if user does not exist, create user and like the cast
@@ -107,8 +105,6 @@ export const POST = frames(async (ctx) => {
                 },
             },
         });
-
-        return;
     }
 
     return Response.json({
