@@ -95,6 +95,7 @@ export const POST = frames(async (ctx) => {
     // check if user has liked the cast
     if (user?.likes.length === 0) {
         // if user has not liked the cast, like the cast
+
         await prismadb.likes.create({
             data: {
                 fid: user.fid,
@@ -107,13 +108,12 @@ export const POST = frames(async (ctx) => {
         return Response.json({
             message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has been PowerLiked`,
         });
+    } else {
+        console.log(
+            "currently, this is just a message to test user has liked the cast",
+        );
+        return Response.json({
+            message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has already been PowerLiked`,
+        });
     }
-
-    return Response.json({
-        message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has already been PowerLiked`,
-    });
-
-    // return Response.json({
-    //     message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has been PowerLiked`,
-    // });
 });
