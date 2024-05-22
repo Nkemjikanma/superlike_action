@@ -87,11 +87,13 @@ export const POST = frames(async (ctx) => {
                 alreadyTipped: false,
             },
         });
+
+        return;
     }
 
     // if user does not exist, create user and like the cast
     if (!user) {
-        user = await prismadb.user.create({
+        await prismadb.user.create({
             data: {
                 fid: requesterFid,
                 likes: {
@@ -105,6 +107,8 @@ export const POST = frames(async (ctx) => {
                 },
             },
         });
+
+        return;
     }
 
     return Response.json({
