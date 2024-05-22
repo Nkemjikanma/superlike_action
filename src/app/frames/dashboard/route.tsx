@@ -3,7 +3,7 @@ import { Button } from "frames.js/next";
 import { prismadb } from "@/utils/prismadb";
 import { startTime, endTime } from "@/utils/constants";
 import { frames } from "../frames";
-import { calculateTipGiven, getTipAllowance } from "@/utils/helpers";
+import { getTipAllowance } from "@/utils/helpers";
 import { getDegenQuery } from "@/utils/airstack";
 
 export const dynamic = "force-dynamic";

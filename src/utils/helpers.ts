@@ -1,4 +1,3 @@
-import { getDegenQuery } from "./airstack";
 import { init } from "@airstack/node";
 import { airStackKey } from "./constants";
 
