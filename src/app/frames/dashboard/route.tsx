@@ -118,6 +118,10 @@ const handler = frames(async (ctx) => {
             { subject: "Number of power likes", value: user?.likes.length },
             { subject: "Tip allowance", value: tipAllowance },
             { subject: "Already tipped", value: totalUsed },
+            {
+                subject: "Remaining tip allowance",
+                value: Number(tipAllowance) - totalUsed,
+            },
         ];
 
         return {
