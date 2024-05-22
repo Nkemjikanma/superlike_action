@@ -92,6 +92,10 @@ export const POST = frames(async (ctx) => {
                 alreadyTipped: false,
             },
         });
+
+        return Response.json({
+            message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has been PowerLiked`,
+        });
     }
 
     // if user does not exist, create user and like the cast
@@ -109,6 +113,10 @@ export const POST = frames(async (ctx) => {
                     ],
                 },
             },
+        });
+
+        return Response.json({
+            message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has been PowerLiked`,
         });
     }
 
