@@ -3,13 +3,13 @@ import { Button } from "frames.js/next";
 import { frames } from "./frames";
 
 const handleRequest = frames(async () => {
-    const actionUrl = `https://warpcast.com/~/add-cast-action?${new URLSearchParams({ url: new URL("/frames/actionMeta", "http:localhost:3000").toString() })}`;
+    const actionUrl = `https://warpcast.com/~/add-cast-action?${new URLSearchParams({ url: new URL("/frames/actionMeta", "https://superlike-action.vercel.app").toString() })}`;
 
     return {
         image: (
-            <div tw="flex flex-col relative w-full h-full items-center justify-center">
-                <p>PowerLike Action ⚡️</p>
-                <p tw="text-md mt-7">
+            <div tw="flex flex-col relative w-full h-full items-center justify-center m-auto">
+                <p tw="text-xl">PowerLike Action ⚡️</p>
+                <p tw="text-md mt-7 w-2/3">
                     Add the Powerlike action to keep track of casts you want to
                     automatically tip with the powerlike frame.
                 </p>
