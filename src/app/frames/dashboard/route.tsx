@@ -127,8 +127,8 @@ const handler = frames(async (ctx) => {
         return {
             image: (
                 <div tw="flex flex-col relative w-full h-full items-center justify-center m-auto py-3">
-                    <div tw="flex flex-col relative w-3/4 h-2/4 items-center justify-center">
-                        <div tw="flex flex-col relative w-full h-full m-auto items-center justify-center">
+                    <div tw="flex flex-col relative w-3/4 h-2/4 items-center justify-center border border-red-500">
+                        <div tw="flex flex-col relative m-auto items-center justify-center border border-green-500">
                             <ul tw="flex flex-col relative w-full h-full ">
                                 {displayedObject.map(
                                     ({ subject, value }, index) => (
