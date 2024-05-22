@@ -3,20 +3,20 @@ import "dotenv/config";
 
 export const getYesterdaysDate = () => {
     const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
     yesterday.setUTCHours(7, 35, 0, 0);
+    yesterday.setDate(yesterday.getDate() - 1);
 
-    return yesterday.toUTCString();
+    return yesterday;
 };
 
 export const getTodaysDate = () => {
     const today = new Date();
-    today.setUTCHours(7, 34, 59, 999);
-    return today.toUTCString();
+    today.setUTCHours(7, 35, 0, 0);
+    return today;
 };
 
-// if today has passed 7:35 AM, then we get date and time of today.
-// if today has not passed 7:35 AM, then we get date and time of yesterday.
+// if time of today has passed 7:35 AM, then we get date and time of today.
+// if time of today has not passed 7:35 AM, then we get date and time of yesterday.
 
 const now = new Date();
 export const currentDateGreaterThan =

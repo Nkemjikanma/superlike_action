@@ -4,6 +4,7 @@ import { prismadb } from "@/utils/prismadb";
 import { startTime, endTime } from "@/utils/constants";
 import { frames } from "../frames";
 import { calculateTipGiven, getTipAllowance } from "@/utils/helpers";
+import { getDegenQuery } from "@/utils/airstack";
 
 export const dynamic = "force-dynamic";
 
@@ -51,9 +52,9 @@ const handler = frames(async (ctx) => {
         // get remaining allowance
         // const { totalUsed, error } = await getDegenQuery(user.fid.toString());
 
-        const { totalUsed, error } = await calculateTipGiven(
-            user.fid.toString(),
-        );
+        const { totalUsed, error } = await getDegenQuery(user.fid.toString());
+
+        console.log(totalUsed);
 
         if (error) {
             return {

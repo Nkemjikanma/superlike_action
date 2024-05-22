@@ -1,7 +1,10 @@
 import { getDegenQuery } from "./airstack";
-import { currentDateGreaterThan } from "./constants";
+import { init } from "@airstack/node";
+import { airStackKey } from "./constants";
 
 export const dynamic = "force-dynamic";
+
+init(airStackKey);
 
 export const getTipAllowance = async (fid: number) => {
     const response = await fetch(
@@ -40,32 +43,4 @@ export const getDistributeTips = (
     // if percentage is provided
     const percentageValue = (Number(percentage) / 100) * allowance;
     return percentageValue / numberOfLikes;
-};
-
-export const calculateTipGiven = async (fid: string) => {
-    let totalUsed = 0;
-
-    const { data, error } = await getDegenQuery(fid);
-    const replyData = data.FarcasterReplies.Reply;
-
-    const filteredCasts = replyData
-        .filter(
-            (cast) =>
-                new Date(cast.castedAtTimestamp).toLocaleTimeString() >=
-                new Date(currentDateGreaterThan).toLocaleTimeString(),
-        )
-        .filter((cast) => cast.text.toLowerCase().includes("$degen"));
-
-    console.log("filteredCasts -->", filteredCasts);
-
-    filteredCasts.forEach((cast) => {
-        const degenMatch = cast.text.match(/\b\d+\b\s\$degen/gi);
-        const degenValue = degenMatch ? degenMatch[0] : "0 $degen";
-
-        totalUsed += parseInt(degenValue);
-    });
-
-    console.log("totalUsed -->", totalUsed);
-
-    return { totalUsed, error };
 };
