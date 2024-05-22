@@ -68,7 +68,7 @@ export const POST = frames(async (ctx) => {
     const { data, error } = await getQuery(castId);
 
     // check if user exists
-    consoole.log("user", user?.likes);
+    console.log("user", user?.likes);
     if (user) {
         const like = user.likes.some((like) => like.castId === castId.hash);
 
