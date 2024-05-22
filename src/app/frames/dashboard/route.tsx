@@ -134,7 +134,7 @@ const handler = frames(async (ctx) => {
                                     ({ subject, value }, index) => (
                                         <li
                                             key={index}
-                                            tw="flex flex-row relative border h-fit border-gray-800 justify-between px-2"
+                                            tw="flex flex-row relative border h-fit border-gray-800 justify-between px-2 text-[25px]"
                                         >
                                             <p>{subject}:</p>
                                             <p tw="ml-2">{value}</p>
@@ -143,7 +143,7 @@ const handler = frames(async (ctx) => {
                                 )}
                             </ul>
                         </div>
-                        <span tw="text-md mt-4">
+                        <span tw="text-md mt-4 text-[19px]">
                             Leave textfield empty to tip 100%
                         </span>
                     </div>
