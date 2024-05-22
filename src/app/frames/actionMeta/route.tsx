@@ -69,7 +69,7 @@ export const POST = frames(async (ctx) => {
 
     // check if user exists
     if (user) {
-        const like = user.likes.find((like) => like.castId === castId.hash);
+        const like = user.likes.some((like) => like.castId === castId.hash);
 
         // if user has liked the cast, return a message
         if (like) {
