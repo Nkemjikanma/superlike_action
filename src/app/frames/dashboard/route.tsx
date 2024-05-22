@@ -134,7 +134,7 @@ const handler = frames(async (ctx) => {
                                     ({ subject, value }, index) => (
                                         <li
                                             key={index}
-                                            tw="flex flex-row relative border border-gray-800 justify-between px-2"
+                                            tw="flex flex-col relative border border-gray-800 justify-between px-2"
                                         >
                                             <p>{subject}:</p>
                                             <p tw="ml-2">{value}</p>
