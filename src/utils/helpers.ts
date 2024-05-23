@@ -1,5 +1,6 @@
 import { init } from "@airstack/node";
 import { airStackKey } from "./constants";
+import { prismadb } from "./prismadb";
 
 export const dynamic = "force-dynamic";
 
@@ -42,4 +43,38 @@ export const getDistributeTips = (
     // if percentage is provided
     const percentageValue = (Number(percentage) / 100) * allowance;
     return percentageValue / numberOfLikes;
+};
+
+export const queryLikesData = async (
+    castId: string,
+    requesterFid: number,
+    authorFid: number,
+): Promise<string> => {
+    let response: string;
+    const like = await prismadb.likes.findUnique({
+        where: {
+            castId: castId,
+        },
+    });
+
+    if (like && like.castId) {
+        response = "Like found";
+        return response;
+    }
+
+    const createLike = await prismadb.likes.create({
+        data: {
+            fid: requesterFid,
+            castId: castId,
+            authorFid: authorFid,
+            alreadyTipped: false,
+        },
+    });
+
+    if (!createLike) {
+        response = "Like error";
+        return response;
+    }
+
+    return "Success";
 };
