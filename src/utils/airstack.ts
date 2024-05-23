@@ -80,11 +80,12 @@ export const getDegenQuery = async (fid: string) => {
 
     const filteredCasts = replyData
         .filter((cast) => cast.text.toLowerCase().includes("$degen"))
-        .filter(
-            (cast) =>
-                new Date(cast.castedAtTimestamp).toUTCString() >=
-                currentDateGreaterThan.toUTCString(),
-        );
+        .filter((cast) => {
+            return (
+                new Date(cast.castedAtTimestamp).toLocaleDateString() >=
+                currentDateGreaterThan.toLocaleDateString()
+            );
+        });
 
     console.log(filteredCasts);
 
@@ -99,3 +100,5 @@ export const getDegenQuery = async (fid: string) => {
 
     return { totalUsed, error };
 };
+
+getDegenQuery("405941");
