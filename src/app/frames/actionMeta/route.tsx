@@ -34,7 +34,7 @@ export const GET = frames(async () => {
 });
 
 export const POST = frames(async (ctx) => {
-    let user: UserType;
+    // let user: UserType;
     const { message } = ctx;
 
     if (!message) {
@@ -52,7 +52,7 @@ export const POST = frames(async (ctx) => {
         });
     }
 
-    user = await prismadb.user.findUnique({
+    const user = await prismadb.user.findUnique({
         where: {
             fid: requesterFid,
         },
