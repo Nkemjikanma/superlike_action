@@ -61,9 +61,9 @@ const degenQuery = (fid: string) => `query MyQuery {
       }
     }`;
 
-export const getQuery = async (castId: { fid: number }) => {
+export const getQuery = async (castId: number) => {
     const { data, error }: QueryResponse = await fetchQuery(
-        query(castId.fid.toString()),
+        query(castId.toString()),
     );
 
     return { data, error };
