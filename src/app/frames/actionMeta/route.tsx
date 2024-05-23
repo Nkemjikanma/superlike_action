@@ -37,6 +37,7 @@ export const POST = frames(async (ctx) => {
                 "Will not PowerLike a cast without a castId - i'll try again",
         });
     }
+    console.log("before getQuery", castId.hash);
 
     const like = await prismadb.likes.findUnique({
         where: {
@@ -44,9 +45,12 @@ export const POST = frames(async (ctx) => {
         },
     });
 
+    console.log("after getQuery", like?.castId);
+
     const { data, error } = await getQuery(castId);
 
-    if (like && like.castId === castId.hash) {
+    if (like && like.castId === castId.hash.toString()) {
+        console.log("them don like am oo");
         return Response.json({
             message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has already been PowerLiked`,
         });
