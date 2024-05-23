@@ -43,11 +43,12 @@ export const POST = frames(async (ctx) => {
             castId.fid,
         );
 
-        if (queryDataResults === "Like found") {
-            return Response.json({
-                message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has already been PowerLiked`,
-            });
-        }
+        // why is this not working? It is not found, it creates it, then comes back to say it is found
+        // if (queryDataResults === "Like found") {
+        //     return Response.json({
+        //         message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has already been PowerLiked`,
+        //     });
+        // }
 
         if (queryDataResults === "Like error") {
             return Response.json({
