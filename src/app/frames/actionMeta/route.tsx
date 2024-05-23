@@ -2,20 +2,6 @@ import { prismadb } from "@/utils/prismadb";
 import { frames } from "../frames";
 import { getQuery } from "@/utils/airstack";
 
-type UserType =
-    | ({
-          fid: number;
-      } & {
-          likes: {
-              castId: string;
-              authorFid: number;
-              fid: number;
-              alreadyTipped: boolean;
-              likedAt: Date;
-          }[];
-      })
-    | null;
-
 // forces refresh of next cache
 export const dynamic = "force-dynamic";
 
@@ -52,71 +38,100 @@ export const POST = frames(async (ctx) => {
         });
     }
 
-    const user = await prismadb.user.findUnique({
+    const like = await prismadb.likes.findUnique({
         where: {
-            fid: requesterFid,
-        },
-        include: {
-            likes: {
-                where: {
-                    castId: castId.hash,
-                },
-            },
+            castId: castId.hash,
         },
     });
 
     const { data, error } = await getQuery(castId);
 
-    // if user does not exist, create user and like the cast
-    if (!user?.fid) {
-        console.log("creating user");
-        await prismadb.user.create({
-            data: {
-                fid: requesterFid,
-                likes: {
-                    create: [
-                        {
-                            castId: castId.hash,
-                            authorFid: castId.fid,
-                            alreadyTipped: false,
-                        },
-                    ],
-                },
-            },
-        });
-
+    if (like && like.castId === castId.hash) {
         return Response.json({
-            message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has been PowerLiked`,
+            message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has already been PowerLiked`,
         });
-    } else {
-        // check if user exists
-        console.log("user", user?.likes);
-
-        // check if user has liked the cast
-        if (user?.likes.length === 0) {
-            // if user has not liked the cast, like the cast
-
-            console.log("creating like");
-
-            await prismadb.likes.create({
-                data: {
-                    fid: user.fid,
-                    castId: castId.hash,
-                    authorFid: castId.fid,
-                    alreadyTipped: false,
-                },
-            });
-
-            return Response.json({
-                message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has been PowerLiked`,
-            });
-        } else {
-            console.log(
-                "currently, this is just a message to test user has liked the cast",
-            );
-            return Response.json({
-                message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has already been PowerLiked`,
-            });
-        }
     }
+
+    // await prismadb.user.upsert({
+    //     where: {
+    //         fid: requesterFid,
+    //     },
+    //     create: {
+    //         likes: {
+    //             create: [
+    //                 {
+    //                     castId: castId.hash,
+    //                     authorFid: castId.fid,
+    //                     alreadyTipped: false,
+    //                 },
+    //             ],
+    //         },
+    //     },
+    // });
+
+    await prismadb.likes.create({
+        data: {
+            fid: requesterFid,
+            castId: castId.hash,
+            authorFid: castId.fid,
+            alreadyTipped: false,
+        },
+    });
+
+    return Response.json({
+        message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has been PowerLiked`,
+    });
+
+    // if user does not exist, create user and like the cast
+    // if (!user?.fid) {
+    //     console.log("creating user");
+    //     await prismadb.user.create({
+    //         data: {
+    //             fid: requesterFid,
+    //             likes: {
+    //                 create: [
+    //                     {
+    //                         castId: castId.hash,
+    //                         authorFid: castId.fid,
+    //                         alreadyTipped: false,
+    //                     },
+    //                 ],
+    //             },
+    //         },
+    //     });
+
+    //     return Response.json({
+    //         message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has been PowerLiked`,
+    //     });
+    // } else {
+    //     // check if user exists
+    //     console.log("user", user?.likes);
+
+    //     // check if user has liked the cast
+    //     if (user?.likes.length === 0) {
+    //         // if user has not liked the cast, like the cast
+
+    //         console.log("creating like");
+
+    //         await prismadb.likes.create({
+    //             data: {
+    //                 fid: user.fid,
+    //                 castId: castId.hash,
+    //                 authorFid: castId.fid,
+    //                 alreadyTipped: false,
+    //             },
+    //         });
+
+    //         return Response.json({
+    //             message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has been PowerLiked`,
+    //         });
+    //     } else {
+    //         console.log(
+    //             "currently, this is just a message to test user has liked the cast",
+    //         );
+    //         return Response.json({
+    //             message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has already been PowerLiked`,
+    //         });
+    //     }
+    // }
 });
