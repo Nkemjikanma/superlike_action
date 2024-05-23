@@ -4,7 +4,7 @@ import "dotenv/config";
 export const getYesterdaysDate = () => {
     const yesterday = new Date();
     yesterday.setUTCHours(7, 35, 0, 0);
-    yesterday.setDate(yesterday.getDate() - 1);
+    yesterday.setUTCDate(yesterday.getUTCDate() - 1);
 
     return yesterday;
 };
