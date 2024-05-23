@@ -1,4 +1,3 @@
-import { prismadb } from "@/utils/prismadb";
 import { frames } from "../frames";
 import { getQuery } from "@/utils/airstack";
 import { queryLikesData } from "@/utils/helpers";

@@ -1,7 +1,7 @@
 import { Button } from "frames.js/next";
 
 import { prismadb } from "@/utils/prismadb";
-import { startTime, endTime } from "@/utils/constants";
+import { currentDateGreaterThan } from "@/utils/constants";
 import { frames } from "../frames";
 import { getTipAllowance } from "@/utils/helpers";
 import { getDegenQuery } from "@/utils/airstack";
@@ -25,8 +25,7 @@ const handler = frames(async (ctx) => {
                 where: {
                     fid: Number(userId),
                     likedAt: {
-                        gte: new Date(startTime),
-                        lte: new Date(endTime),
+                        gte: currentDateGreaterThan,
                     },
                 },
             },
@@ -37,6 +36,10 @@ const handler = frames(async (ctx) => {
             },
         },
     });
+
+    console.log(user?.likes);
+    console.log(user?.fid);
+    console.log(user?.signer);
 
     if (user && user.fid) {
         /**
