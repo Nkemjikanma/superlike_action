@@ -19,6 +19,7 @@ export const getTodaysDate = () => {
 // if time of today has not passed 7:35 AM, then we get date and time of yesterday.
 
 const now = new Date();
+console.log("now", now.toLocaleString());
 export const currentDateGreaterThan =
     now.getUTCHours() >= 7 && now.getUTCMinutes() > 35
         ? getTodaysDate()

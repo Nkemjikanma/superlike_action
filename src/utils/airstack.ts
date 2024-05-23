@@ -79,12 +79,12 @@ export const getDegenQuery = async (fid: string) => {
     const replyData = data.FarcasterReplies.Reply;
 
     const filteredCasts = replyData
+        .filter((cast) => cast.text.toLowerCase().includes("$degen"))
         .filter(
             (cast) =>
-                new Date(cast.castedAtTimestamp).toLocaleString() >=
-                currentDateGreaterThan.toLocaleString(),
-        )
-        .filter((cast) => cast.text.toLowerCase().includes("$degen"));
+                new Date(cast.castedAtTimestamp).toUTCString() >=
+                currentDateGreaterThan.toUTCString(),
+        );
 
     console.log(filteredCasts);
 
@@ -99,3 +99,5 @@ export const getDegenQuery = async (fid: string) => {
 
     return { totalUsed, error };
 };
+
+getDegenQuery("405941");
