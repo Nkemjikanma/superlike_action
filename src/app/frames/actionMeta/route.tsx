@@ -68,7 +68,8 @@ export const POST = frames(async (ctx) => {
     const { data, error } = await getQuery(castId);
 
     // if user does not exist, create user and like the cast
-    if (!user) {
+    if (!user?.fid) {
+        console.log("creating user");
         await prismadb.user.create({
             data: {
                 fid: requesterFid,
@@ -87,33 +88,35 @@ export const POST = frames(async (ctx) => {
         return Response.json({
             message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has been PowerLiked`,
         });
-    }
-
-    // check if user exists
-    console.log("user", user?.likes);
-
-    // check if user has liked the cast
-    if (user?.likes.length === 0) {
-        // if user has not liked the cast, like the cast
-
-        await prismadb.likes.create({
-            data: {
-                fid: user.fid,
-                castId: castId.hash,
-                authorFid: castId.fid,
-                alreadyTipped: false,
-            },
-        });
-
-        return Response.json({
-            message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has been PowerLiked`,
-        });
     } else {
-        console.log(
-            "currently, this is just a message to test user has liked the cast",
-        );
-        return Response.json({
-            message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has already been PowerLiked`,
-        });
+        // check if user exists
+        console.log("user", user?.likes);
+
+        // check if user has liked the cast
+        if (user?.likes.length === 0) {
+            // if user has not liked the cast, like the cast
+
+            console.log("creating like");
+
+            await prismadb.likes.create({
+                data: {
+                    fid: user.fid,
+                    castId: castId.hash,
+                    authorFid: castId.fid,
+                    alreadyTipped: false,
+                },
+            });
+
+            return Response.json({
+                message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has been PowerLiked`,
+            });
+        } else {
+            console.log(
+                "currently, this is just a message to test user has liked the cast",
+            );
+            return Response.json({
+                message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has already been PowerLiked`,
+            });
+        }
     }
 });
