@@ -1,5 +1,6 @@
 import { NeynarAPIClient } from "@neynar/nodejs-sdk";
 import "dotenv/config";
+import { prismadb } from "./prismadb";
 
 export const getYesterdaysDate = () => {
     const yesterday = new Date();

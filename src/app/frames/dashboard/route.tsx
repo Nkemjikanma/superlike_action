@@ -23,9 +23,8 @@ const handler = frames(async (ctx) => {
         include: {
             likes: {
                 where: {
-                    fid: Number(userId),
                     likedAt: {
-                        gte: currentDateGreaterThan,
+                        gte: new Date(currentDateGreaterThan.toUTCString()),
                     },
                 },
             },
