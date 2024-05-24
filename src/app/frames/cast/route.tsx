@@ -151,7 +151,7 @@ export const POST = frames(async (ctx) => {
         percentageToTip,
     );
 
-    Promise.allSettled(
+    await Promise.allSettled(
         user.likes.map(async (cast, index) => {
             const postCast = await fetch(
                 "https://api.neynar.com/v2/farcaster/cast",
@@ -166,6 +166,9 @@ export const POST = frames(async (ctx) => {
                         signer_uuid: user.signer?.signer_uuid,
                         text: `You've been tipped ${distributeTips} $degen. By @nkemjika`,
                         parent: user.likes[index].castId,
+                        embeds: [
+                            { url: "https://superlike-action.vercel.app" },
+                        ],
                     }),
                 },
             );
