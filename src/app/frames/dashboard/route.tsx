@@ -36,10 +36,6 @@ const handler = frames(async (ctx) => {
         },
     });
 
-    console.log(user?.likes);
-    console.log(user?.fid);
-    console.log(user?.signer);
-
     if (user && user.fid) {
         /**
          * Tip button should:
