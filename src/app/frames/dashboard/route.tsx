@@ -158,9 +158,6 @@ const handler = frames(async (ctx) => {
                         key={1}
                         target={{
                             pathname: "/cast",
-                            query: {
-                                tipAllowance: tipAllowance,
-                            },
                         }}
                     >
                         Tip away

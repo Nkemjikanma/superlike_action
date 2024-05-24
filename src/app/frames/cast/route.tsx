@@ -1,7 +1,7 @@
 import { currentDateGreaterThan } from "@/utils/constants";
 import { prismadb } from "@/utils/prismadb";
 import { frames } from "../frames";
-import { getDistributeTips } from "@/utils/helpers";
+import { getDistributeTips, getTipAllowance } from "@/utils/helpers";
 import { Button } from "frames.js/next";
 import { getDegenQuery } from "@/utils/airstack";
 
@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 export const POST = frames(async (ctx) => {
     const requesterFid = ctx.message?.requesterFid;
     const percentageToTip = ctx.message?.inputText;
-    const tipAllowance = ctx.searchParams.tipAllowance;
+    const tipAllowance = await getTipAllowance(requesterFid!);
 
     // get user's record from the database
     const user = await prismadb.user.findUnique({

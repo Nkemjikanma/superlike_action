@@ -1,5 +1,6 @@
 import { init, fetchQuery } from "@airstack/node";
 import { airStackKey, currentDateGreaterThan } from "./constants";
+import { prismadb } from "./prismadb";
 
 init(airStackKey);
 
