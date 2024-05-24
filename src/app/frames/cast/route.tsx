@@ -20,11 +20,9 @@ export const POST = frames(async (ctx) => {
         include: {
             likes: {
                 where: {
-                    fid: Number(requesterFid),
                     alreadyTipped: false,
                     likedAt: {
-                        gte: new Date(currentDateGreaterThan),
-                        // lte: new Date(endTime),
+                        gte: new Date(currentDateGreaterThan.toUTCString()),
                     },
                 },
             },
@@ -36,12 +34,13 @@ export const POST = frames(async (ctx) => {
         },
     });
 
-    if (!user) {
+    if (!user || !user.signer || !user.likes) {
         return {
             image: (
                 <div tw="flex flex-col relative w-full h-full items-center justify-center">
                     <div tw="flex relative">
-                        Something went wrong, please try again.
+                        Something went wrong, Make sure you have signed and
+                        power liked.
                     </div>
                     <div tw="bottom-0 right-0 absolute bg-gray-800 border-t-4 border-r-4 border-gray-800 rounded-tl-2xl p-4 text-white text-2xl">
                         By @nkemjika
@@ -94,7 +93,10 @@ export const POST = frames(async (ctx) => {
             image: (
                 <div tw="flex flex-col relative w-full h-full items-center justify-center">
                     <div tw="flex relative">
-                        Something went wrong, please try again.
+                        Number of power likes: {user?.likes.length}
+                    </div>
+                    <div tw="flex relative">
+                        Sorry, an error occured. Please try again.
                     </div>
                     <div tw="bottom-0 right-0 absolute bg-gray-800 border-t-4 border-r-4 border-gray-800 rounded-tl-2xl p-4 text-white text-2xl">
                         By @nkemjika
@@ -143,43 +145,33 @@ export const POST = frames(async (ctx) => {
     }
 
     // gets the tip to be given to each super like - from allowance and percentage
-    const distributeTips =
-        user &&
-        getDistributeTips(
-            user?.likes.length,
-            Number(tipAllowance) - totalUsed,
-            percentageToTip,
-        );
+    const distributeTips = getDistributeTips(
+        user.likes.length,
+        Number(tipAllowance) - totalUsed,
+        percentageToTip,
+    );
 
     Promise.allSettled(
         user.likes.map(async (cast, index) => {
-            try {
-                const postCast = await fetch(
-                    "https://api.neynar.com/v2/farcaster/cast",
-                    {
-                        method: "POST",
-                        headers: {
-                            "content-type": "application/json",
-                            accept: "application/json",
-                            api_key: process.env.NEYNAR_API_KEY!,
-                        },
-                        body: JSON.stringify({
-                            signer_uuid: user.signer?.signer_uuid,
-                            text: `You've been tipped ${distributeTips} $degen. By @nkemjika`,
-                            parent: user.likes[index].castId,
-                        }),
+            const postCast = await fetch(
+                "https://api.neynar.com/v2/farcaster/cast",
+                {
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json",
+                        accept: "application/json",
+                        api_key: process.env.NEYNAR_API_KEY!,
                     },
-                );
+                    body: JSON.stringify({
+                        signer_uuid: user.signer?.signer_uuid,
+                        text: `You've been tipped ${distributeTips} $degen. By @nkemjika`,
+                        parent: user.likes[index].castId,
+                    }),
+                },
+            );
 
-                if (postCast.ok) {
-                    return cast.castId;
-                }
-            } catch (error) {
-                if (error instanceof HttpError) {
-                    if (error.response.status === 404) {
-                        console.log("Signer not found");
-                    }
-                }
+            if (postCast.ok) {
+                return cast.castId;
             }
         }),
     ).then((results) => {
