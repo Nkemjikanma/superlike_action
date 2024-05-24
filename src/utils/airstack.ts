@@ -100,5 +100,3 @@ export const getDegenQuery = async (fid: string) => {
 
     return { totalUsed, error };
 };
-
-getDegenQuery("405941");
