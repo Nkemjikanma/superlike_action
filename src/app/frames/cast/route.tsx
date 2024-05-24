@@ -151,53 +151,55 @@ export const POST = frames(async (ctx) => {
         percentageToTip,
     );
 
-    await Promise.allSettled(
-        user.likes.map(async (cast, index) => {
-            const postCast = await fetch(
-                "https://api.neynar.com/v2/farcaster/cast",
-                {
-                    method: "POST",
-                    headers: {
-                        "content-type": "application/json",
-                        accept: "application/json",
-                        api_key: process.env.NEYNAR_API_KEY!,
+    const carryoutTipping = async () => {
+        await Promise.allSettled(
+            user.likes.map(async (cast, index) => {
+                const postCast = await fetch(
+                    "https://api.neynar.com/v2/farcaster/cast",
+                    {
+                        method: "POST",
+                        headers: {
+                            "content-type": "application/json",
+                            accept: "application/json",
+                            api_key: process.env.NEYNAR_API_KEY!,
+                        },
+                        body: JSON.stringify({
+                            signer_uuid: user.signer?.signer_uuid,
+                            text: `You've been tipped ${distributeTips} $degen. By @nkemjika`,
+                            parent: user.likes[index].castId,
+                            embeds: [
+                                { url: "https://superlike-action.vercel.app" },
+                            ],
+                        }),
                     },
-                    body: JSON.stringify({
-                        signer_uuid: user.signer?.signer_uuid,
-                        text: `You've been tipped ${distributeTips} $degen. By @nkemjika`,
-                        parent: user.likes[index].castId,
-                        embeds: [
-                            { url: "https://superlike-action.vercel.app" },
-                        ],
-                    }),
-                },
-            );
+                );
 
-            if (postCast.ok) {
-                return cast.castId;
-            }
-        }),
-    )
-        .then((results) => {
-            results.forEach(async (result) => {
-                if (result.status === "fulfilled") {
-                    console.log("Tipped successfully");
-
-                    await prismadb.likes.update({
-                        where: {
-                            castId: result.value,
-                        },
-                        data: {
-                            alreadyTipped: true,
-                        },
-                    });
+                if (postCast.ok) {
+                    return cast.castId;
                 }
-            });
-        })
-        .catch((error) => {
-            console.log("Tipping failed", error);
-        });
+            }),
+        )
+            .then((results) => {
+                results.forEach(async (result) => {
+                    if (result.status === "fulfilled") {
+                        console.log("Tipped successfully");
 
+                        await prismadb.likes.update({
+                            where: {
+                                castId: result.value,
+                            },
+                            data: {
+                                alreadyTipped: true,
+                            },
+                        });
+                    }
+                });
+            })
+            .catch((error) => {
+                console.log("Tipping failed", error);
+            });
+    };
+    carryoutTipping();
     return {
         image: (
             <div tw="flex flex-col relative w-full h-full items-center justify-center">
