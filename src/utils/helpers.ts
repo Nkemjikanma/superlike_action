@@ -26,8 +26,8 @@ export const getTipAllowance = async (fid: number) => {
 };
 
 export const getDistributeTips = (
-    allowance: number,
     numberOfLikes: number,
+    currentAllowance: number,
     percentage?: string,
 ) => {
     // check if percenntage is not a number
@@ -37,11 +37,11 @@ export const getDistributeTips = (
 
     // check if percentage is not provided
     if (percentage === undefined) {
-        return allowance / numberOfLikes;
+        return currentAllowance / numberOfLikes;
     }
 
     // if percentage is provided
-    const percentageValue = (Number(percentage) / 100) * allowance;
+    const percentageValue = (Number(percentage) / 100) * currentAllowance;
     return percentageValue / numberOfLikes;
 };
 

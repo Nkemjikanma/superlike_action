@@ -151,33 +151,31 @@ export const POST = frames(async (ctx) => {
         percentageToTip,
     );
 
-    await Promise.allSettled(
-        user.likes.map(async (cast, index) => {
-            const postCast = await fetch(
-                "https://api.neynar.com/v2/farcaster/cast",
-                {
-                    method: "POST",
-                    headers: {
-                        "content-type": "application/json",
-                        accept: "application/json",
-                        api_key: process.env.NEYNAR_API_KEY!,
-                    },
-                    body: JSON.stringify({
-                        signer_uuid: user.signer?.signer_uuid,
-                        text: `You've been tipped ${distributeTips} $degen. By @nkemjika`,
-                        parent: user.likes[index].castId,
-                        embeds: [
-                            { url: "https://superlike-action.vercel.app" },
-                        ],
-                    }),
+    const carryoutTipping = user.likes.map(async (cast, index) => {
+        const postCast = await fetch(
+            "https://api.neynar.com/v2/farcaster/cast",
+            {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json",
+                    accept: "application/json",
+                    api_key: process.env.NEYNAR_API_KEY!,
                 },
-            );
+                body: JSON.stringify({
+                    signer_uuid: user.signer?.signer_uuid,
+                    text: `You've been tipped ${distributeTips} $degen. By @nkemjika`,
+                    parent: user.likes[index].castId,
+                    embeds: [{ url: "https://superlike-action.vercel.app" }],
+                }),
+            },
+        );
 
-            if (postCast.ok) {
-                return cast.castId;
-            }
-        }),
-    ).then((results) => {
+        if (postCast.ok) {
+            return cast.castId;
+        }
+    });
+
+    await Promise.allSettled(carryoutTipping).then((results) => {
         results.forEach(async (result) => {
             if (result.status === "fulfilled") {
                 console.log("Tipped successfully");
