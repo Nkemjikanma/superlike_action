@@ -9,14 +9,35 @@ import { getDegenQuery } from "@/utils/airstack";
 const handler = frames(async (ctx) => {
     const userId = ctx.message?.requesterFid;
 
-    // const userId = 7251;
-    // const userId = 405941;
+    if (!userId) {
+        return {
+            image: (
+                <div tw="flex flex-col relative w-full h-full items-center justify-center">
+                    Error: Could not get your userId. Try again.
+                    <div tw="bottom-0 right-0 absolute bg-gray-800 border-t-4 border-r-4 border-gray-800 rounded-tl-2xl p-4 text-white text-2xl">
+                        By @nkemjika
+                    </div>
+                </div>
+            ),
+            buttons: [
+                <Button
+                    action="post"
+                    key={1}
+                    target={{
+                        pathname: "/",
+                    }}
+                >
+                    TRY AGAIN
+                </Button>,
+            ],
+        };
+    }
 
     // get user
     // and check if user has sign data
     const user = await prismadb.user.findUnique({
         where: {
-            fid: Number(userId),
+            fid: userId,
         },
         include: {
             likes: {
@@ -28,7 +49,7 @@ const handler = frames(async (ctx) => {
             },
             signer: {
                 where: {
-                    fid: Number(userId),
+                    fid: userId,
                 },
             },
         },
