@@ -12,6 +12,8 @@ export const POST = frames(async (ctx) => {
     const percentageToTip = ctx.message?.inputText;
     const tipAllowance = await getTipAllowance(requesterFid!);
 
+    console.log("tipAllowance", tipAllowance);
+
     // get user's record from the database
     const user = await prismadb.user.findUnique({
         where: {
@@ -65,7 +67,10 @@ export const POST = frames(async (ctx) => {
         return {
             image: (
                 <div tw="flex flex-col relative w-full h-full items-center justify-center">
-                    <div tw="flex relative">No powerlikes yet, boss.</div>
+                    <div tw="flex relative">No tipmarks yet, boss.</div>
+                    <div tw="flex relative">
+                        (See if you need to add more tipmarks)
+                    </div>
                     <div tw="bottom-0 right-0 absolute bg-gray-800 border-t-4 border-r-4 border-gray-800 rounded-tl-2xl p-4 text-white text-2xl">
                         By @nkemjika
                     </div>
@@ -150,6 +155,11 @@ export const POST = frames(async (ctx) => {
         Number(tipAllowance) - totalUsed,
         percentageToTip,
     );
+
+    console.log("number of likes", user.likes.length);
+    console.log("tipAllowance", tipAllowance);
+    console.log("distributeTips", distributeTips);
+    console.log(Number(percentageToTip));
 
     try {
         const results = await Promise.allSettled(
