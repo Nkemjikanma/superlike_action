@@ -20,8 +20,11 @@ export const GET = frames(async () => {
 });
 
 export const POST = frames(async (ctx) => {
-    // let user: UserType;
     const { message } = ctx;
+
+    if (message?.isValid) {
+        throw new Error("Invalid message");
+    }
 
     if (message) {
         const { requesterFid, castId } = message;
@@ -32,22 +35,16 @@ export const POST = frames(async (ctx) => {
                     "Will not Tipmark a cast without a castId - i'll try again",
             });
         }
+
+        // get the author's username
         const { data, error } = await getQuery(castId.fid);
 
-        console.log("before db query", castId.hash);
-
+        // add like to the db
         const queryDataResults = await queryLikesData(
             castId.hash,
             requesterFid,
             castId.fid,
         );
-
-        // why is this not working? It is not found, it creates it, then comes back to say it is found
-        // if (queryDataResults === "Like found") {
-        //     return Response.json({
-        //         message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has already been PowerLiked`,
-        //     });
-        // }
 
         if (queryDataResults === "Like error") {
             return Response.json({

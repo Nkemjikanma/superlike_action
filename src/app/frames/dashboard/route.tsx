@@ -7,6 +7,10 @@ import { getTipAllowance } from "@/utils/helpers";
 import { getDegenQuery } from "@/utils/airstack";
 
 const handler = frames(async (ctx) => {
+    if (!ctx.message?.isValid) {
+        throw new Error("Invalid message");
+    }
+
     const userId = ctx.message?.requesterFid;
 
     if (!userId) {
@@ -131,49 +135,18 @@ const handler = frames(async (ctx) => {
             };
         }
 
-        const displayedObject = [
-            { subject: "Number of Tipmarks", value: user?.likes.length },
-            {
-                subject: "Already tipped",
-                value: user?.likes.filter((like) => like.alreadyTipped === true)
-                    .length,
-            },
-            { subject: "Tip allowance", value: tipAllowance },
-            { subject: "Degen tipped", value: totalUsed },
-            {
-                subject: "Remaining tip allowance",
-                value: Number(tipAllowance) - totalUsed,
-            },
-        ];
+        const searchParams = new URLSearchParams({
+            tipmarks: user?.likes.length.toString(),
+            alreadyTipped: user?.likes
+                .filter((like) => like.alreadyTipped === true)
+                .length.toString(),
+            tipAllowance: tipAllowance,
+            degentTipped: totalUsed.toString(),
+            remaining: (Number(tipAllowance) - totalUsed).toString(),
+        });
 
         return {
-            image: (
-                <div tw="flex flex-col relative w-full h-full items-center justify-center m-auto py-3">
-                    <div tw="flex flex-col relative w-full h-fit items-center justify-center">
-                        <div tw="flex flex-col relative h-fit m-auto items-center justify-center">
-                            <ul tw="flex flex-col relative w-full h-fit">
-                                {displayedObject.map(
-                                    ({ subject, value }, index) => (
-                                        <li
-                                            key={index}
-                                            tw="flex flex-row relative border h-fit border-gray-800 justify-between px-2 text-[25px]"
-                                        >
-                                            <p>{subject}:</p>
-                                            <p tw="ml-2">{value}</p>
-                                        </li>
-                                    ),
-                                )}
-                            </ul>
-                        </div>
-                        <span tw="text-md mt-4 text-[19px]">
-                            Leave textfield empty to tip 100%
-                        </span>
-                    </div>
-                    <div tw="bottom-0 right-0 absolute bg-gray-800 border-t-4 border-r-4 border-gray-800 rounded-tl-2xl p-4 text-white text-2xl">
-                        By @nkemjika
-                    </div>
-                </div>
-            ),
+            image: `https://superlike-action.vercel.app/frames/image/image?${searchParams}`,
             textInput: "Enter percentage",
             buttons: [
                 user.signer?.signer_uuid ? (

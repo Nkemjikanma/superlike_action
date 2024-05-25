@@ -8,6 +8,9 @@ import { getDegenQuery } from "@/utils/airstack";
 export const dynamic = "force-dynamic";
 
 export const POST = frames(async (ctx) => {
+    if (!ctx.message?.isValid) {
+        throw new Error("Invalid message");
+    }
     const requesterFid = ctx.message?.requesterFid;
     const percentageToTip = ctx.message?.inputText;
     const tipAllowance = await getTipAllowance(requesterFid!);
