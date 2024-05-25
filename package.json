@@ -8,7 +8,7 @@
     "build": "npx prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
-    "script": "node ./src/utils/cronScript.js"
+    "script": "node ./src/utils/cronScript.ts"
   },
   "dependencies": {
     "@airstack/node": "^0.0.7",
