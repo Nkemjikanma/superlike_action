@@ -30,8 +30,8 @@ export async function GET(req: NextRequest) {
 
     const imageResponse = new ImageResponse(
         (
-            <div tw="flex flex-col relative w-full h-full items-center justify-center m-auto py-3">
-                <div tw="flex flex-col relative w-full h-fit items-center justify-center">
+            <div tw="flex flex-col relative w-full h-full items-center justify-center m-auto py-3 bg-white">
+                <div tw="flex flex-col relative w-full h-fit items-center justify-center bg-white">
                     <div tw="flex flex-col relative h-fit m-auto items-center justify-center">
                         <ul tw="flex flex-col relative w-full h-fit">
                             {displayedObject.map(
