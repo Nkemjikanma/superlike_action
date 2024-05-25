@@ -116,7 +116,7 @@ const handler = frames(async (ctx) => {
             { subject: "Number of power likes", value: user?.likes.length },
             {
                 subject: "Already tipped",
-                value: user?.likes.map((like) => like.alreadyTipped === true)
+                value: user?.likes.filter((like) => like.alreadyTipped === true)
                     .length,
             },
             { subject: "Tip allowance", value: tipAllowance },
