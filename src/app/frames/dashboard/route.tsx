@@ -141,7 +141,7 @@ const handler = frames(async (ctx) => {
                 .filter((like) => like.alreadyTipped === true)
                 .length.toString(),
             tipAllowance: tipAllowance,
-            degentTipped: totalUsed.toString(),
+            degenTipped: totalUsed.toString(),
             remaining: (Number(tipAllowance) - totalUsed).toString(),
         });
 
