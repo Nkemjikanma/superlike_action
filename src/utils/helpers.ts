@@ -30,14 +30,20 @@ export const getDistributeTips = (
     currentAllowance: number,
     percentage?: string,
 ) => {
+    console.log(Number(percentage));
     // check if percenntage is not a number
-    if (Number.isNaN(percentage) || Number(percentage) > 100) {
-        return "Invalid percentage";
-    }
 
     // check if percentage is not provided
-    if (percentage === undefined) {
+    if (
+        percentage === undefined ||
+        Number(percentage) === 0 ||
+        percentage === ""
+    ) {
         return currentAllowance / numberOfLikes;
+    }
+
+    if (Number(percentage) > 100) {
+        return "Invalid percentage";
     }
 
     // if percentage is provided
