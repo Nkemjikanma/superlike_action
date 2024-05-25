@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "PowerLike",
-    description: "Don't just like, PowerLike!",
+    title: "Tipmark",
+    description: "Tipmark casts, so you can easily tip them!",
 };
 
 export default function RootLayout({

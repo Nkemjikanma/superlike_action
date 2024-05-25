@@ -7,9 +7,9 @@ export const dynamic = "force-dynamic";
 
 export const GET = frames(async () => {
     const data = {
-        name: "PowerLike",
+        name: "TipMark",
         icon: "plus",
-        description: "Why like when you can PowerLike.",
+        description: "Save casts to tip later",
         aboutUrl: "https://warpcast.com/nkemjika",
         action: {
             type: "post",
@@ -29,7 +29,7 @@ export const POST = frames(async (ctx) => {
         if (!castId) {
             return Response.json({
                 message:
-                    "Will not PowerLike a cast without a castId - i'll try again",
+                    "Will not Tipmark a cast without a castId - i'll try again",
             });
         }
         const { data, error } = await getQuery(castId.fid);
@@ -56,7 +56,7 @@ export const POST = frames(async (ctx) => {
         }
 
         return Response.json({
-            message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has been PowerLiked`,
+            message: `Cast by ${error ? ctx.message?.castId?.fid : data.Socials.Social[0].profileName} has been Tipmarked`,
         });
     }
 

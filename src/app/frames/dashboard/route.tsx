@@ -59,7 +59,7 @@ const handler = frames(async (ctx) => {
                 image: (
                     <div tw="flex flex-col relative w-full h-full items-center justify-center">
                         <div tw="flex relative">
-                            Number of power likes: {user?.likes.length}
+                            Number of Tipmarks: {user?.likes.length}
                         </div>
                         <div tw="flex relative">
                             Sorry, an error occured. Please try again.
@@ -88,7 +88,7 @@ const handler = frames(async (ctx) => {
                 image: (
                     <div tw="flex flex-col relative w-full h-full items-center justify-center">
                         <div tw="flex relative">
-                            Number of power likes: {user?.likes.length}
+                            Number of Tipmarks: {user?.likes.length}
                         </div>
                         <div tw="flex relative">
                             Sorry, no tip allowance just yet.
@@ -113,7 +113,7 @@ const handler = frames(async (ctx) => {
         }
 
         const displayedObject = [
-            { subject: "Number of power likes", value: user?.likes.length },
+            { subject: "Number of Tipmarks", value: user?.likes.length },
             {
                 subject: "Already tipped",
                 value: user?.likes.filter((like) => like.alreadyTipped === true)
@@ -184,7 +184,7 @@ const handler = frames(async (ctx) => {
         image: (
             <div tw="flex flex-col relative w-full h-full items-center justify-center">
                 Error: Havent added the action yet.
-                <span tw="text-sm mt-2">Add action to start powerliking</span>
+                <span tw="text-sm mt-2">Add action to start Tipmarking</span>
                 <div tw="bottom-0 right-0 absolute bg-gray-800 border-t-4 border-r-4 border-gray-800 rounded-tl-2xl p-4 text-white text-2xl">
                     By @nkemjika
                 </div>

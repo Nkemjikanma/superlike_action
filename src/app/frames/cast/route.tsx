@@ -42,7 +42,7 @@ export const POST = frames(async (ctx) => {
                 <div tw="flex flex-col relative w-full h-full items-center justify-center">
                     <div tw="flex relative">
                         Something went wrong, Make sure you have signed and
-                        power liked.
+                        Tipmarked.
                     </div>
                     <div tw="bottom-0 right-0 absolute bg-gray-800 border-t-4 border-r-4 border-gray-800 rounded-tl-2xl p-4 text-white text-2xl">
                         By @nkemjika
@@ -98,7 +98,7 @@ export const POST = frames(async (ctx) => {
             image: (
                 <div tw="flex flex-col relative w-full h-full items-center justify-center">
                     <div tw="flex relative">
-                        Number of power likes: {user?.likes.length}
+                        Number of Tipmarks: {user?.likes.length}
                     </div>
                     <div tw="flex relative">
                         Sorry, an error occured. Please try again.

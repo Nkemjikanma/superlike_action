@@ -7,8 +7,8 @@ export const dynamic = "force-dynamic";
 // TODO: fix url to host
 export async function generateMetadata(): Promise<Metadata> {
     return {
-        title: "PowerLike Action",
-        description: "Don't just like, power like!",
+        title: "Tipmark Action",
+        description: "Save casts to tip later!",
         other: {
             ...(await fetchMetadata(
                 new URL("/frames", "https://superlike-action.vercel.app"),
@@ -18,5 +18,5 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function Home() {
-    return <div>Power like ⚡️</div>;
+    return <div>Tipmark ⚡️</div>;
 }
