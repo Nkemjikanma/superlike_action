@@ -19,6 +19,7 @@ const handleRequest = frames(async () => {
                 <div tw="bottom-0 right-0 absolute bg-gray-800 border-t-4 border-r-4 border-gray-800 rounded-tl-2xl p-4 text-white text-2xl">
                     By @nkemjika
                 </div>
+                <div tw="bottom-0 left-0 p-4 text-white">By @nkemjika</div>
             </div>
         ),
         buttons: [

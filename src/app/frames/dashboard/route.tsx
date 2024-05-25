@@ -143,6 +143,7 @@ const handler = frames(async (ctx) => {
             tipAllowance: tipAllowance,
             degenTipped: totalUsed.toString(),
             remaining: (Number(tipAllowance) - totalUsed).toString(),
+            time: new Date().toLocaleString(),
         });
 
         return {

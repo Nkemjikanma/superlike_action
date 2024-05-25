@@ -49,7 +49,6 @@ export async function GET(req: NextRequest) {
                     </div>
                     <span tw="text-md mt-4 text-[19px]">
                         Leave textfield empty to tip 100%
-                        {new Date().toLocaleString()}
                     </span>
                 </div>
                 <div tw="bottom-0 right-0 absolute bg-gray-800 border-t-4 border-r-4 border-gray-800 rounded-tl-2xl p-4 text-white text-2xl">
