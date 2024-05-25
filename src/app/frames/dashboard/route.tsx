@@ -146,7 +146,7 @@ const handler = frames(async (ctx) => {
         });
 
         return {
-            image: `https://superlike-action.vercel.app/frames/image/image?${searchParams}`,
+            image: `https://superlike-action.vercel.app/frames/image?${searchParams}`,
             textInput: "Enter percentage",
             buttons: [
                 user.signer?.signer_uuid ? (
