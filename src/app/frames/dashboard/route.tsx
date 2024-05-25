@@ -6,8 +6,6 @@ import { frames } from "../frames";
 import { getTipAllowance } from "@/utils/helpers";
 import { getDegenQuery } from "@/utils/airstack";
 
-export const dynamic = "force-dynamic";
-
 const handler = frames(async (ctx) => {
     const userId = ctx.message?.requesterFid;
 
@@ -120,7 +118,7 @@ const handler = frames(async (ctx) => {
                     .length,
             },
             { subject: "Tip allowance", value: tipAllowance },
-            { subject: "Already tipped", value: totalUsed },
+            { subject: "Degen tipped", value: totalUsed },
             {
                 subject: "Remaining tip allowance",
                 value: Number(tipAllowance) - totalUsed,
