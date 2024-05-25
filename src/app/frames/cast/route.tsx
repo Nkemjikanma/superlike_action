@@ -196,7 +196,7 @@ export const POST = frames(async (ctx) => {
                         },
                         body: JSON.stringify({
                             signer_uuid: user.signer?.signer_uuid,
-                            text: `You've been tipped ${distributeTips} $degen`,
+                            text: `You've been tipped ${Math.floor(distributeTips)} $degen`,
                             parent: cast.castId,
                             embeds: [
                                 {
