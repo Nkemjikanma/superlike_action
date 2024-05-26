@@ -47,7 +47,7 @@ const handler = frames(async (ctx) => {
             likes: {
                 where: {
                     likedAt: {
-                        gte: new Date(currentDateGreaterThan.toUTCString()),
+                        gte: new Date(currentDateGreaterThan().toUTCString()),
                     },
                 },
             },

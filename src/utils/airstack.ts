@@ -78,10 +78,12 @@ export const getDegenQuery = async (fid: string) => {
 
     const replyData = data.FarcasterReplies.Reply;
 
+    const current = currentDateGreaterThan();
+
     const filteredCasts = replyData
         .filter((cast) => cast.text.toLowerCase().includes("$degen"))
         .filter((cast) => {
-            return new Date(cast.castedAtTimestamp) >= currentDateGreaterThan;
+            return new Date(cast.castedAtTimestamp) >= current;
         });
 
     console.log(filteredCasts);
@@ -97,3 +99,5 @@ export const getDegenQuery = async (fid: string) => {
 
     return { totalUsed, error };
 };
+
+getDegenQuery("405941");

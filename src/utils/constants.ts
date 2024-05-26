@@ -19,11 +19,13 @@ export const getTodaysDate = () => {
     return today;
 };
 
-const now = new Date();
-const hours = now.getUTCHours();
-const minutes = now.getUTCMinutes();
-export const currentDateGreaterThan =
-    hours >= 7 && minutes > 35 ? getTodaysDate() : getYesterdaysDate();
+export const currentDateGreaterThan = () => {
+    const now = new Date();
+    const hours = now.getUTCHours();
+    const minutes = now.getUTCMinutes();
+
+    return hours >= 7 && minutes > 35 ? getTodaysDate() : getYesterdaysDate();
+};
 
 // if time of today has passed 7:35 AM, then we get date and time of today.
 // if time of today has not passed 7:35 AM, then we get date and time of yesterday.

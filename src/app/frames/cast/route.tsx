@@ -27,7 +27,7 @@ export const POST = frames(async (ctx) => {
                 where: {
                     alreadyTipped: false,
                     likedAt: {
-                        gte: new Date(currentDateGreaterThan.toUTCString()),
+                        gte: new Date(currentDateGreaterThan().toUTCString()),
                     },
                 },
             },
