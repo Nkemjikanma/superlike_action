@@ -22,20 +22,25 @@ export const GET = frames(async () => {
 export const POST = frames(async (ctx) => {
     const { message } = ctx;
 
-    if (message?.isValid) {
-        throw new Error("Invalid message");
+    if (!message?.isValid) {
+        throw new Error("Invalid frame");
     }
 
     if (message) {
         const { requesterFid, castId } = message;
 
-        if (!castId) {
+        if (!castId?.hash || !castId?.fid) {
             return Response.json({
                 message:
                     "Will not Tipmark a cast without a castId - i'll try again",
             });
         }
 
+        if (requesterFid === castId.fid) {
+            return Response.json({
+                message: "You can't Tipmark your own cast",
+            });
+        }
         // get the author's username
         const { data, error } = await getQuery(castId.fid);
 
