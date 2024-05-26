@@ -41,6 +41,7 @@ export const POST = frames(async (ctx) => {
                 message: "You can't Tipmark your own cast",
             });
         }
+
         // get the author's username
         const { data, error } = await getQuery(castId.fid);
 
