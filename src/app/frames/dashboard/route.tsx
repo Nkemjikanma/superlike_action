@@ -158,7 +158,7 @@ const handler = frames(async (ctx) => {
                             pathname: "/cast",
                         }}
                     >
-                        Tip away
+                        Tip
                     </Button>
                 ) : (
                     <Button
@@ -166,7 +166,7 @@ const handler = frames(async (ctx) => {
                         key={2}
                         target="http://signer-seven.vercel.app"
                     >
-                        Reply(needs signing)
+                        Tip(needs signing)
                     </Button>
                 ),
             ],
