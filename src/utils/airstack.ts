@@ -82,9 +82,7 @@ export const getDegenQuery = async (fid: string) => {
 
     const filteredCasts = replyData
         .filter((cast) => cast.text.toLowerCase().includes("$degen"))
-        .filter((cast) => {
-            return new Date(cast.castedAtTimestamp) >= current;
-        });
+        .filter((cast) => new Date(cast.castedAtTimestamp) >= current);
 
     console.log(filteredCasts);
 

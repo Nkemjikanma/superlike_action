@@ -1,30 +1,35 @@
 import { NeynarAPIClient } from "@neynar/nodejs-sdk";
 import "dotenv/config";
 
-export const getYesterdaysDate = () => {
-    const yesterday = new Date();
-    yesterday.setUTCHours(7, 35, 0, 0);
-    yesterday.setUTCDate(yesterday.getUTCDate() - 1);
+// export const getYesterdaysDate = () => {
+//     console.log("yesterday");
 
-    console.log("yesterday");
+//     return yesterday;
+// };
 
-    return yesterday;
-};
-
-export const getTodaysDate = () => {
-    const today = new Date();
-    today.setUTCHours(7, 35, 0, 0);
-
-    console.log("today");
-    return today;
-};
+// export const getTodaysDate = () => {
+//     console.log("today");
+//     return today;
+// };
 
 export const currentDateGreaterThan = () => {
     const now = new Date();
-    const hours = now.getUTCHours();
-    const minutes = now.getUTCMinutes();
 
-    return hours >= 7 && minutes > 35 ? getTodaysDate() : getYesterdaysDate();
+    const today = new Date(now);
+    today.setUTCHours(7, 35, 0, 0);
+
+    const yesterday = new Date(today);
+    yesterday.setUTCDate(today.getUTCDate() - 1);
+
+    // Check if the current time is past 7:35 AM UTC today
+    if (now >= today) {
+        console.log("today");
+
+        return today;
+    } else {
+        console.log("yesterday");
+        return yesterday;
+    }
 };
 
 // if time of today has passed 7:35 AM, then we get date and time of today.

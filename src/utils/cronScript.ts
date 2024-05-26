@@ -1,8 +1,8 @@
 import { prismadb } from "./prismadb";
-import { getTodaysDate } from "./constants";
+import { currentDateGreaterThan } from "./constants";
 
 const deleteOldFiles = async () => {
-    const timeToDelete = getTodaysDate();
+    const timeToDelete = currentDateGreaterThan();
     try {
         await prismadb.likes.deleteMany({
             where: {
