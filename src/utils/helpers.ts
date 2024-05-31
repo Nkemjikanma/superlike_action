@@ -8,7 +8,7 @@ init(airStackKey);
 
 export const getTipAllowance = async (fid: number) => {
     const response = await fetch(
-        `https://api.dune.com/api/v1/query/3744089/results?limit=1&columns=tip_allowance&filters=fid=${fid}`,
+        `https://api.dune.com/api/v1/query/3745431/results?limit=1&columns=tip_allowance&filters=fid=${fid}`,
         {
             headers: { "X-Dune-API-Key": process.env.DUNE_API_KEY! },
         },
@@ -24,6 +24,26 @@ export const getTipAllowance = async (fid: number) => {
 
     return tipAllowance;
 };
+
+const test = async () => {
+    const testing = await getTipAllowance(405941);
+
+    const degen = await fetch(
+        `https://www.degen.tips/api/airdrop2/tip-allowance?fid=${405941}`,
+        {
+            method: "GET",
+            headers: {
+                "Content-type": "applicatioin/json",
+            },
+        },
+    );
+
+    const res = await degen.json();
+    console.log(res);
+    console.log(testing);
+};
+
+test();
 
 export const getDistributeTips = (
     numberOfLikes: number,
