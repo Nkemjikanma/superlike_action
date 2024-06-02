@@ -1,4 +1,4 @@
-name: Daily Cron Job at 7:35UTC
+name: Daily Cron Job at 12:00UTC
 
 on:
   schedule:
